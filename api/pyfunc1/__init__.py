@@ -1,11 +1,12 @@
 import logging
-
+import os
 import azure.functions as func
 
 
 def main(req: func.HttpRequest) -> func.HttpResponse:
     logging.info('Python HTTP trigger function processed a request.')
-
+    my_app_setting_value = os.environ["Zoro"]
+    logging.info(f'Zoro:{my_app_setting_value}')
     name = req.params.get('name')
     if not name:
         try:
@@ -16,9 +17,9 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
             name = req_body.get('name')
 
     if name:
-        return func.HttpResponse(f"Hello, {name}. This HTTP triggered function executed successfully.")
+        return func.HttpResponse(f"Hello, {name}. Zoro:{my_app_setting_value}. This HTTP triggered function executed successfully.")
     else:
         return func.HttpResponse(
-             "This HTTP triggered function executed successfully. Pass a name in the query string or in the request body for a personalized response.",
+             f"Zoro:{my_app_setting_value}.This HTTP triggered function executed successfully. Pass a name in the query string or in the request body for a personalized response.",
              status_code=200
         )
